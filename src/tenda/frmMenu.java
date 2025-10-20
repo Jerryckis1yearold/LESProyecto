@@ -24,7 +24,7 @@ public class frmMenu extends javax.swing.JFrame {
         Privilegios = nivel;
         
         initComponents();
-        
+        setExtendedState(MAXIMIZED_BOTH);
         if(Privilegios == 1){
             mnuAdministracion.setEnabled(true);
         }
