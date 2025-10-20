@@ -10,15 +10,24 @@ import java.util.HashSet;
  *
  * @author david
  */
-public class Menu extends javax.swing.JFrame {
+public class frmMenu extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Menu.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(frmMenu.class.getName());
 
+    int Privilegios;
+    
     /**
      * Creates new form Menu
      */
-    public Menu() {
+    public frmMenu(int nivel) {
+        
+        Privilegios = nivel;
+        
         initComponents();
+        
+        if(Privilegios == 1){
+            mnuAdministracion.setEnabled(true);
+        }
     }
 
     /**
@@ -32,6 +41,9 @@ public class Menu extends javax.swing.JFrame {
 
         pnlContenedor = new javax.swing.JPanel();
         jMenuBar2 = new javax.swing.JMenuBar();
+        mnuSesion = new javax.swing.JMenu();
+        mnubtnCerrarSesion = new javax.swing.JMenuItem();
+        mnubtnSalir = new javax.swing.JMenuItem();
         mnuVentas = new javax.swing.JMenu();
         mnubtnRealizarVenta = new javax.swing.JMenuItem();
         mnubtnConsultarMenu = new javax.swing.JMenuItem();
@@ -42,6 +54,7 @@ public class Menu extends javax.swing.JFrame {
         mnubtnAcercade = new javax.swing.JMenuItem();
         mnuAdministracion = new javax.swing.JMenu();
         mnubtnPromociones = new javax.swing.JMenuItem();
+        sbmnuEmpleados = new javax.swing.JMenu();
         mnubtnRegistrarEmpleado = new javax.swing.JMenuItem();
         mnubtnModificarEmpleado = new javax.swing.JMenuItem();
         mnubtnDespedirEmpleado = new javax.swing.JMenuItem();
@@ -59,6 +72,26 @@ public class Menu extends javax.swing.JFrame {
             pnlContenedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 454, Short.MAX_VALUE)
         );
+
+        mnuSesion.setText("Sesion");
+
+        mnubtnCerrarSesion.setText("Cerrar sesion");
+        mnubtnCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnubtnCerrarSesionActionPerformed(evt);
+            }
+        });
+        mnuSesion.add(mnubtnCerrarSesion);
+
+        mnubtnSalir.setText("Salir");
+        mnubtnSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnubtnSalirActionPerformed(evt);
+            }
+        });
+        mnuSesion.add(mnubtnSalir);
+
+        jMenuBar2.add(mnuSesion);
 
         mnuVentas.setText("Ventas");
 
@@ -82,7 +115,6 @@ public class Menu extends javax.swing.JFrame {
 
         mnubtnAyudaVentas.setText("Ayuda ventas");
         mnuAyuda.add(mnubtnAyudaVentas);
-        mnubtnAyudaVentas.getAccessibleContext().setAccessibleParent(null);
 
         mnubtnAyudaAdmin.setText("Ayuda administracion");
         mnuAyuda.add(mnubtnAyudaAdmin);
@@ -103,14 +135,18 @@ public class Menu extends javax.swing.JFrame {
         mnubtnPromociones.setText("Promociones");
         mnuAdministracion.add(mnubtnPromociones);
 
+        sbmnuEmpleados.setText("Empleados");
+
         mnubtnRegistrarEmpleado.setText("Registrar empleado");
-        mnuAdministracion.add(mnubtnRegistrarEmpleado);
+        sbmnuEmpleados.add(mnubtnRegistrarEmpleado);
 
         mnubtnModificarEmpleado.setText("Modificar empleado");
-        mnuAdministracion.add(mnubtnModificarEmpleado);
+        sbmnuEmpleados.add(mnubtnModificarEmpleado);
 
         mnubtnDespedirEmpleado.setText("Despedir empleado");
-        mnuAdministracion.add(mnubtnDespedirEmpleado);
+        sbmnuEmpleados.add(mnubtnDespedirEmpleado);
+
+        mnuAdministracion.add(sbmnuEmpleados);
 
         mnubtnConsultarRegistros.setText("Consultar registro de ventas");
         mnuAdministracion.add(mnubtnConsultarRegistros);
@@ -127,7 +163,7 @@ public class Menu extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnlContenedor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pnlContenedor, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -139,15 +175,23 @@ public class Menu extends javax.swing.JFrame {
 
     private void mnubtnAcercadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnubtnAcercadeActionPerformed
         // TODO add your handling code here:
-        //frmAcercaDe AcercaDe = new frmAcercaDe();
-        //this.add(AcercaDe);
-        //AcercaDe.setVisible(true);
-        pnlAcercaDe AcercaDe = new pnlAcercaDe(pnlContenedor);
-        AcercaDe.setSize(pnlContenedor.getSize());
-        pnlContenedor.add(AcercaDe);
-        AcercaDe.revalidate();
-        AcercaDe.repaint();
+        frmAcercaDe AcercaDe = new frmAcercaDe();
+        this.add(AcercaDe);
+        AcercaDe.setVisible(true);
+        
     }//GEN-LAST:event_mnubtnAcercadeActionPerformed
+
+    private void mnubtnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnubtnSalirActionPerformed
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_mnubtnSalirActionPerformed
+
+    private void mnubtnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnubtnCerrarSesionActionPerformed
+        // TODO add your handling code here:
+        frmLogin newLogin = new frmLogin();
+        newLogin.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_mnubtnCerrarSesionActionPerformed
 
     /**
      * @param args the command line arguments
@@ -171,17 +215,19 @@ public class Menu extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new Menu().setVisible(true));
+        //java.awt.EventQueue.invokeLater(() -> new frmMenu().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuBar jMenuBar2;
     private javax.swing.JMenu mnuAdministracion;
     private javax.swing.JMenu mnuAyuda;
+    private javax.swing.JMenu mnuSesion;
     private javax.swing.JMenu mnuVentas;
     private javax.swing.JMenuItem mnubtnAcercade;
     private javax.swing.JMenuItem mnubtnAyudaAdmin;
     private javax.swing.JMenuItem mnubtnAyudaVentas;
+    private javax.swing.JMenuItem mnubtnCerrarSesion;
     private javax.swing.JMenuItem mnubtnConsultarMenu;
     private javax.swing.JMenuItem mnubtnConsultarPromociones;
     private javax.swing.JMenuItem mnubtnConsultarRegistros;
@@ -190,6 +236,8 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnubtnPromociones;
     private javax.swing.JMenuItem mnubtnRealizarVenta;
     private javax.swing.JMenuItem mnubtnRegistrarEmpleado;
+    private javax.swing.JMenuItem mnubtnSalir;
     private javax.swing.JPanel pnlContenedor;
+    private javax.swing.JMenu sbmnuEmpleados;
     // End of variables declaration//GEN-END:variables
 }

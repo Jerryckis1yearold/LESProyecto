@@ -4,6 +4,29 @@
   <NonVisualComponents>
     <Menu class="javax.swing.JMenuBar" name="jMenuBar2">
       <SubComponents>
+        <Menu class="javax.swing.JMenu" name="mnuSesion">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Sesion"/>
+          </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="mnubtnCerrarSesion">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Cerrar sesion"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnubtnCerrarSesionActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="mnubtnSalir">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Salir"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnubtnSalirActionPerformed"/>
+              </Events>
+            </MenuItem>
+          </SubComponents>
+        </Menu>
         <Menu class="javax.swing.JMenu" name="mnuVentas">
           <Properties>
             <Property name="text" type="java.lang.String" value="Ventas"/>
@@ -38,11 +61,6 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Ayuda ventas"/>
               </Properties>
-              <AccessibilityProperties>
-                <Property name="AccessibleContext.accessibleParent" type="javax.accessibility.Accessible" editor="org.netbeans.modules.form.ComponentChooserEditor">
-                  <ComponentRef name="null"/>
-                </Property>
-              </AccessibilityProperties>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mnubtnAyudaAdmin">
               <Properties>
@@ -70,21 +88,28 @@
                 <Property name="text" type="java.lang.String" value="Promociones"/>
               </Properties>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="mnubtnRegistrarEmpleado">
+            <Menu class="javax.swing.JMenu" name="sbmnuEmpleados">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Registrar empleado"/>
+                <Property name="text" type="java.lang.String" value="Empleados"/>
               </Properties>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="mnubtnModificarEmpleado">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Modificar empleado"/>
-              </Properties>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="mnubtnDespedirEmpleado">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Despedir empleado"/>
-              </Properties>
-            </MenuItem>
+              <SubComponents>
+                <MenuItem class="javax.swing.JMenuItem" name="mnubtnRegistrarEmpleado">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Registrar empleado"/>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="mnubtnModificarEmpleado">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Modificar empleado"/>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="mnubtnDespedirEmpleado">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Despedir empleado"/>
+                  </Properties>
+                </MenuItem>
+              </SubComponents>
+            </Menu>
             <MenuItem class="javax.swing.JMenuItem" name="mnubtnConsultarRegistros">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Consultar registro de ventas"/>
@@ -123,7 +148,7 @@
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="pnlContenedor" alignment="0" max="32767" attributes="0"/>
+          <Component id="pnlContenedor" alignment="1" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>

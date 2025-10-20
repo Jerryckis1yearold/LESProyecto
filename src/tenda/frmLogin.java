@@ -4,6 +4,8 @@
  */
 package tenda;
 
+import javax.swing.JOptionPane;
+
 
 /**
  *
@@ -109,10 +111,11 @@ public class frmLogin extends javax.swing.JFrame {
                     .addComponent(jLabel2)
                     .addComponent(txtUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(49, 49, 49)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(chkMostrarPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(chkMostrarPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel1)
+                        .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(41, 41, 41)
                 .addComponent(btnAceptar)
                 .addContainerGap(45, Short.MAX_VALUE))
@@ -130,9 +133,25 @@ public class frmLogin extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_chkMostrarPassActionPerformed
 
+    
     private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         // TODO add your handling code here:
+        String password = new String(txtPassword.getPassword());
         
+        if(txtUser.getText().equals("Billy") && password.equals("1936")){ // Supervisor/Gerente
+            JOptionPane.showMessageDialog(null, "Inicio de sesion exitoso.", "Login de Administrador correcto", JOptionPane.INFORMATION_MESSAGE);
+            frmMenu Menu = new frmMenu(1);
+            Menu.setVisible(true);
+            this.dispose();
+            
+        } else if(txtUser.getText().equals("TEmpleado") && password.equals("T3619")){
+            JOptionPane.showMessageDialog(null, "Inicio de sesion exitoso.", "Login de Empleado correcto", JOptionPane.INFORMATION_MESSAGE);
+            frmMenu Menu = new frmMenu(0);
+            Menu.setVisible(true);
+            this.dispose();
+        } else{
+            JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos.", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnAceptarActionPerformed
 
     /**
