@@ -5,7 +5,7 @@
 package tenda;
 
 import java.util.HashSet;
-
+import javax.swing.JOptionPane;
 /**
  *
  * @author david
@@ -15,6 +15,7 @@ public class frmMenu extends javax.swing.JFrame {
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(frmMenu.class.getName());
 
     int Privilegios;
+    frmAcercaDe PantAcercaDe;
     
     /**
      * Creates new form Menu
@@ -66,11 +67,11 @@ public class frmMenu extends javax.swing.JFrame {
         pnlContenedor.setLayout(pnlContenedorLayout);
         pnlContenedorLayout.setHorizontalGroup(
             pnlContenedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 803, Short.MAX_VALUE)
+            .addGap(0, 791, Short.MAX_VALUE)
         );
         pnlContenedorLayout.setVerticalGroup(
             pnlContenedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 454, Short.MAX_VALUE)
+            .addGap(0, 442, Short.MAX_VALUE)
         );
 
         mnuSesion.setText("Sesion");
@@ -159,11 +160,17 @@ public class frmMenu extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnlContenedor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(pnlContenedor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnlContenedor, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(pnlContenedor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -171,12 +178,12 @@ public class frmMenu extends javax.swing.JFrame {
 
     private void mnubtnConsultarMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnubtnConsultarMenuActionPerformed
         // TODO add your handling code here:
+
     }//GEN-LAST:event_mnubtnConsultarMenuActionPerformed
 
     private void mnubtnAcercadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnubtnAcercadeActionPerformed
         // TODO add your handling code here:
         frmAcercaDe AcercaDe = new frmAcercaDe();
-        this.add(AcercaDe);
         AcercaDe.setVisible(true);
         
     }//GEN-LAST:event_mnubtnAcercadeActionPerformed
@@ -188,9 +195,13 @@ public class frmMenu extends javax.swing.JFrame {
 
     private void mnubtnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnubtnCerrarSesionActionPerformed
         // TODO add your handling code here:
-        frmLogin newLogin = new frmLogin();
-        newLogin.setVisible(true);
-        this.dispose();
+        int respuesta = JOptionPane.showConfirmDialog(this,"¿Cerrar Sesion?","Confirmación de Cierre de Sesión",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+        if (respuesta == JOptionPane.YES_OPTION) {
+            
+            frmLogin newLogin = new frmLogin();
+            newLogin.setVisible(true);
+            this.dispose();
+        }
     }//GEN-LAST:event_mnubtnCerrarSesionActionPerformed
 
     /**
