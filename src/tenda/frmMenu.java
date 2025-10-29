@@ -139,6 +139,11 @@ public class frmMenu extends javax.swing.JFrame {
         sbmnuEmpleados.setText("Empleados");
 
         mnubtnRegistrarEmpleado.setText("Registrar empleado");
+        mnubtnRegistrarEmpleado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnubtnRegistrarEmpleadoActionPerformed(evt);
+            }
+        });
         sbmnuEmpleados.add(mnubtnRegistrarEmpleado);
 
         mnubtnModificarEmpleado.setText("Modificar empleado");
@@ -203,6 +208,12 @@ public class frmMenu extends javax.swing.JFrame {
             this.dispose();
         }
     }//GEN-LAST:event_mnubtnCerrarSesionActionPerformed
+
+    private void mnubtnRegistrarEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnubtnRegistrarEmpleadoActionPerformed
+        frmInternalRegistroEmpleado RegistroEmpleado = new frmInternalRegistroEmpleado();
+        pnlContenedor.add(RegistroEmpleado);
+        RegistroEmpleado.setVisible(true);
+    }//GEN-LAST:event_mnubtnRegistrarEmpleadoActionPerformed
 
     /**
      * @param args the command line arguments
