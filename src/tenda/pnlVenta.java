@@ -4,17 +4,61 @@
  */
 package tenda;
 
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author david
  */
 public class pnlVenta extends javax.swing.JInternalFrame {
 
+    
+    DefaultTableModel ModeloMenu;
+    DefaultTableModel ModeloPedido;
+    
     /**
      * Creates new form pnlVenta
      */
     public pnlVenta() {
         initComponents();
+        ModeloMenu = (DefaultTableModel)tblMenu.getModel();
+        ModeloPedido = (DefaultTableModel)tblPedido.getModel();
+        
+        ModeloPedido.addTableModelListener(new javax.swing.event.TableModelListener() {
+        @Override
+        public void tableChanged(javax.swing.event.TableModelEvent e) {
+            // Asegúrate de que es una actualización de celda
+            if (e.getType() == javax.swing.event.TableModelEvent.UPDATE) {
+
+                int fila = e.getFirstRow();
+                int columnaEditada = e.getColumn();
+
+                // Índice de la columna editable (Columna A)
+                final int INDICE_COLUMNA_EDITABLE = 1; 
+                // Índice de la columna dependiente (Columna B)
+                final int INDICE_COLUMNA_DEPENDIENTE = 3; 
+
+                // Verificar si la columna modificada es la Columna A
+                if (columnaEditada == INDICE_COLUMNA_EDITABLE) {
+
+                    // 1. Obtener el nuevo valor de la Columna A
+                    int valorA = (int) ModeloPedido.getValueAt(fila, INDICE_COLUMNA_EDITABLE);
+                    double valorB = (double) ModeloPedido.getValueAt(fila, 2);
+
+                    // 2. Calcular o determinar el nuevo valor para la Columna B
+                    double nuevoValorB = valorA*valorB; // Llama a tu función de lógica
+
+                    // 3. Establecer el nuevo valor en la Columna B
+                    // Nota: setCellValueAt disparará otro TableModelEvent, pero como 
+                    // no estamos escuchando los cambios en la Columna B, no habrá bucle infinito.
+                    ModeloPedido.setValueAt(nuevoValorB, fila, INDICE_COLUMNA_DEPENDIENTE);
+                }
+            }
+        }
+        });
+        
+        ModeloMenu.addRow(new Object[]{1, "Burger", "Hamburguesa con queso", 50.00, true});
+    
     }
 
     /**
@@ -27,44 +71,141 @@ public class pnlVenta extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblMenu = new javax.swing.JTable();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblPedido = new javax.swing.JTable();
 
         setClosable(true);
         setTitle("Registrar Venta");
+        setPreferredSize(new java.awt.Dimension(800, 600));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblMenu.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
                 "ID Entrada", "Nombre", "Descripcion", "Precio", "Disponibilidad"
             }
-        ));
-        jScrollPane1.setViewportView(jTable1);
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Float.class, java.lang.Boolean.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblMenu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblMenuMouseClicked(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                tblMenuMouseReleased(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblMenu);
+
+        tblPedido.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Nombre", "Cantidad", "Precio Unitario", "Subtotal"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Integer.class, java.lang.Float.class, java.lang.Float.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, true, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblPedido.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                tblPedidoPropertyChange(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tblPedido);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(93, 93, 93)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(369, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 776, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(59, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(40, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void tblMenuMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMenuMouseReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tblMenuMouseReleased
+
+    private void recuperarDatosFila(int fila) {
+
+        // Obtener los datos de las columnas
+        String Nombre = ModeloMenu.getValueAt(fila, 1).toString(); // Columna 1
+        double Precio = (double)ModeloMenu.getValueAt(fila, 3);
+        // ... y así sucesivamente para todas tus columnas
+
+        // Ejemplo: Mostrar la información
+        ModeloPedido.addRow(new Object[]{Nombre, 1, Precio, Precio});
+
+        // Ahora puedes usar estos datos para abrir una ventana de edición,
+        // cargar un formulario, etc.
+    }
+    
+    private void tblMenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMenuMouseClicked
+        // TODO add your handling code here:
+        if (evt.getClickCount() == 2) {
+            int filaSeleccionada = tblMenu.rowAtPoint(evt.getPoint());
+
+            // Verificamos que la fila sea válida (no -1)
+            if (filaSeleccionada != -1) {
+                // Llamamos al método que recuperará y usará los datos
+                recuperarDatosFila(filaSeleccionada);
+            }
+        }
+    }//GEN-LAST:event_tblMenuMouseClicked
+
+    private void tblPedidoPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tblPedidoPropertyChange
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tblPedidoPropertyChange
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable tblMenu;
+    private javax.swing.JTable tblPedido;
     // End of variables declaration//GEN-END:variables
 }

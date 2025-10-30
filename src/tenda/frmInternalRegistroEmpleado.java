@@ -47,9 +47,7 @@ public class frmInternalRegistroEmpleado extends javax.swing.JInternalFrame {
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         TxtRFC = new javax.swing.JTextField();
-        jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        TxtFoliCFiscal = new javax.swing.JTextField();
         jTextField1 = new javax.swing.JTextField();
         PanelDatosAdicionales = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
@@ -100,8 +98,6 @@ public class frmInternalRegistroEmpleado extends javax.swing.JInternalFrame {
 
         jLabel9.setText("RFC:");
 
-        jLabel10.setText("Folio de Cedula Fiscal: ");
-
         jLabel11.setText("CURP:");
 
         javax.swing.GroupLayout PanelDatosBasicosLayout = new javax.swing.GroupLayout(PanelDatosBasicos);
@@ -109,10 +105,9 @@ public class frmInternalRegistroEmpleado extends javax.swing.JInternalFrame {
         PanelDatosBasicosLayout.setHorizontalGroup(
             PanelDatosBasicosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelDatosBasicosLayout.createSequentialGroup()
-                .addGap(77, 77, 77)
+                .addGap(82, 82, 82)
                 .addGroup(PanelDatosBasicosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel11)
-                    .addComponent(jLabel10)
                     .addComponent(jLabel9)
                     .addComponent(jLabel5)
                     .addComponent(jLabel4)
@@ -140,7 +135,6 @@ public class frmInternalRegistroEmpleado extends javax.swing.JInternalFrame {
                         .addGap(174, 174, 174)
                         .addComponent(jLabel7))
                     .addComponent(TxtRFC)
-                    .addComponent(TxtFoliCFiscal)
                     .addComponent(jTextField1))
                 .addContainerGap(87, Short.MAX_VALUE))
         );
@@ -179,15 +173,11 @@ public class frmInternalRegistroEmpleado extends javax.swing.JInternalFrame {
                 .addGroup(PanelDatosBasicosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
                     .addComponent(TxtRFC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(PanelDatosBasicosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel10)
-                    .addComponent(TxtFoliCFiscal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addGroup(PanelDatosBasicosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel11)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(102, Short.MAX_VALUE))
+                .addContainerGap(124, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Datos Básicos", PanelDatosBasicos);
@@ -311,7 +301,6 @@ public class frmInternalRegistroEmpleado extends javax.swing.JInternalFrame {
     private javax.swing.JTextField TxtCodigoPostal;
     private javax.swing.JTextField TxtColonia;
     private javax.swing.JTextField TxtEstado;
-    private javax.swing.JTextField TxtFoliCFiscal;
     private javax.swing.JTextField TxtIdEmpleado;
     private javax.swing.JTextField TxtLocalidad;
     private javax.swing.JTextField TxtNExterior;
@@ -320,7 +309,6 @@ public class frmInternalRegistroEmpleado extends javax.swing.JInternalFrame {
     private javax.swing.JTextField TxtPais;
     private javax.swing.JTextField TxtRFC;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;

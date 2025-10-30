@@ -97,6 +97,11 @@ public class frmMenu extends javax.swing.JFrame {
         mnuVentas.setText("Ventas");
 
         mnubtnRealizarVenta.setText("Realizar ventas");
+        mnubtnRealizarVenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnubtnRealizarVentaActionPerformed(evt);
+            }
+        });
         mnuVentas.add(mnubtnRealizarVenta);
 
         mnubtnConsultarMenu.setText("Consultar menu");
@@ -214,6 +219,14 @@ public class frmMenu extends javax.swing.JFrame {
         pnlContenedor.add(RegistroEmpleado);
         RegistroEmpleado.setVisible(true);
     }//GEN-LAST:event_mnubtnRegistrarEmpleadoActionPerformed
+
+    private void mnubtnRealizarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnubtnRealizarVentaActionPerformed
+        // TODO add your handling code here:
+        pnlVenta Venta = new pnlVenta();
+
+        pnlContenedor.add(Venta);
+        Venta.setVisible(true);
+    }//GEN-LAST:event_mnubtnRealizarVentaActionPerformed
 
     /**
      * @param args the command line arguments
