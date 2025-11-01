@@ -188,7 +188,10 @@ public class frmMenu extends javax.swing.JFrame {
 
     private void mnubtnConsultarMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnubtnConsultarMenuActionPerformed
         // TODO add your handling code here:
-
+        pnlConsultaMenu ConsultarMenu = new pnlConsultaMenu();
+        
+        pnlContenedor.add(ConsultarMenu);
+        ConsultarMenu.setVisible(true);
     }//GEN-LAST:event_mnubtnConsultarMenuActionPerformed
 
     private void mnubtnAcercadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnubtnAcercadeActionPerformed
@@ -200,7 +203,11 @@ public class frmMenu extends javax.swing.JFrame {
 
     private void mnubtnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnubtnSalirActionPerformed
         // TODO add your handling code here:
-        System.exit(0);
+         int respuesta = JOptionPane.showConfirmDialog(this,"¿Salir del programa?","Confirmación de Cierre del Programa",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+            if (respuesta == JOptionPane.YES_OPTION) {
+            System.exit(0);
+        }
+        
     }//GEN-LAST:event_mnubtnSalirActionPerformed
 
     private void mnubtnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnubtnCerrarSesionActionPerformed

@@ -4,6 +4,13 @@
  */
 package tenda;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -13,8 +20,10 @@ import javax.swing.table.DefaultTableModel;
 public class pnlVenta extends javax.swing.JInternalFrame {
 
     
-    DefaultTableModel ModeloMenu;
-    DefaultTableModel ModeloPedido;
+    private DefaultTableModel ModeloMenu;
+    private DefaultTableModel ModeloPedido;
+    private Map<Integer, Integer> PedidosTabla;
+    private File ArchivoMenu;
     
     /**
      * Creates new form pnlVenta
@@ -24,41 +33,44 @@ public class pnlVenta extends javax.swing.JInternalFrame {
         ModeloMenu = (DefaultTableModel)tblMenu.getModel();
         ModeloPedido = (DefaultTableModel)tblPedido.getModel();
         
+        PedidosTabla = new HashMap<>();
+        
         ModeloPedido.addTableModelListener(new javax.swing.event.TableModelListener() {
         @Override
         public void tableChanged(javax.swing.event.TableModelEvent e) {
             // Asegúrate de que es una actualización de celda
             if (e.getType() == javax.swing.event.TableModelEvent.UPDATE) {
-
+                
                 int fila = e.getFirstRow();
-                int columnaEditada = e.getColumn();
-
-                // Índice de la columna editable (Columna A)
-                final int INDICE_COLUMNA_EDITABLE = 1; 
-                // Índice de la columna dependiente (Columna B)
-                final int INDICE_COLUMNA_DEPENDIENTE = 3; 
-
-                // Verificar si la columna modificada es la Columna A
-                if (columnaEditada == INDICE_COLUMNA_EDITABLE) {
-
-                    // 1. Obtener el nuevo valor de la Columna A
-                    int valorA = (int) ModeloPedido.getValueAt(fila, INDICE_COLUMNA_EDITABLE);
-                    double valorB = (double) ModeloPedido.getValueAt(fila, 2);
-
-                    // 2. Calcular o determinar el nuevo valor para la Columna B
-                    double nuevoValorB = valorA*valorB; // Llama a tu función de lógica
-
-                    // 3. Establecer el nuevo valor en la Columna B
-                    // Nota: setCellValueAt disparará otro TableModelEvent, pero como 
-                    // no estamos escuchando los cambios en la Columna B, no habrá bucle infinito.
-                    ModeloPedido.setValueAt(nuevoValorB, fila, INDICE_COLUMNA_DEPENDIENTE);
+                int col = e.getColumn();
+                
+                if(col == 2){
+                    int NuevaCantidad = (int)ModeloPedido.getValueAt(fila, 2);
+                    double PrecioUnit = (double)ModeloPedido.getValueAt(fila, 3);
+                
+                    double NuevoSubtotal = NuevaCantidad*PrecioUnit;
+                    
+                    ModeloPedido.setValueAt(NuevoSubtotal, fila, 4);
+                    
+                } else if(col == 5){
+                    int ID = (int)ModeloPedido.getValueAt(fila, 0);
+                    PedidosTabla.remove(ID);
+                    ModeloPedido.removeRow(fila);
                 }
+                
+                modificarTotales();
             }
         }
         });
         
-        ModeloMenu.addRow(new Object[]{1, "Burger", "Hamburguesa con queso", 50.00, true});
-    
+        ArchivoMenu = new File("Menu.txt");
+        
+        if(ArchivoMenu.exists()){
+            CargarDatosMenu();
+        }
+        
+        //ModeloMenu.addRow(new Object[]{1, "Burger", "Hamburguesa con queso", 50.00});
+        //ModeloMenu.addRow(new Object[]{3, "Hot-Dog", "Hot-Dog Sencillo", 45.00});
     }
 
     /**
@@ -74,24 +86,30 @@ public class pnlVenta extends javax.swing.JInternalFrame {
         tblMenu = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblPedido = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        lblSubtotal = new javax.swing.JLabel();
+        lblIVA = new javax.swing.JLabel();
+        lblTotal = new javax.swing.JLabel();
+        btnRegistrar = new javax.swing.JButton();
 
         setClosable(true);
         setTitle("Registrar Venta");
-        setPreferredSize(new java.awt.Dimension(800, 600));
 
         tblMenu.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID Entrada", "Nombre", "Descripcion", "Precio", "Disponibilidad"
+                "ID Entrada", "Nombre", "Descripcion", "Precio"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Float.class, java.lang.Boolean.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Float.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -106,9 +124,6 @@ public class pnlVenta extends javax.swing.JInternalFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblMenuMouseClicked(evt);
             }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                tblMenuMouseReleased(evt);
-            }
         });
         jScrollPane1.setViewportView(tblMenu);
 
@@ -117,14 +132,14 @@ public class pnlVenta extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Nombre", "Cantidad", "Precio Unitario", "Subtotal"
+                "ID", "Nombre", "Cantidad", "Precio Unitario", "Subtotal", ""
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Integer.class, java.lang.Float.class, java.lang.Float.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.Float.class, java.lang.Float.class, java.lang.Boolean.class
             };
             boolean[] canEdit = new boolean [] {
-                false, true, false, false
+                false, false, true, false, false, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -135,12 +150,33 @@ public class pnlVenta extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        tblPedido.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                tblPedidoPropertyChange(evt);
+        jScrollPane2.setViewportView(tblPedido);
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jLabel1.setText("Subtotal: $");
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jLabel2.setText("IVA: $");
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jLabel3.setText("Total: $");
+
+        lblSubtotal.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        lblSubtotal.setText("0.00");
+
+        lblIVA.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        lblIVA.setText("0.00");
+
+        lblTotal.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        lblTotal.setText("0.00");
+
+        btnRegistrar.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        btnRegistrar.setText("Registrar");
+        btnRegistrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrarActionPerformed(evt);
             }
         });
-        jScrollPane2.setViewportView(tblPedido);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -148,10 +184,27 @@ public class pnlVenta extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 776, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 775, Short.MAX_VALUE)
                     .addComponent(jScrollPane1))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(58, 58, 58)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel3))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblIVA)
+                            .addComponent(lblTotal))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(lblSubtotal))
+                .addGap(247, 247, 247)
+                .addComponent(btnRegistrar)
+                .addGap(184, 184, 184))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -160,28 +213,88 @@ public class pnlVenta extends javax.swing.JInternalFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(40, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(lblSubtotal))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(lblIVA)
+                    .addComponent(btnRegistrar))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(lblTotal))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tblMenuMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMenuMouseReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tblMenuMouseReleased
+   private void CargarDatosMenu(){
+        int ID;
+        String Nombre;
+        String Descripcion;
+        Float Precio;
+        boolean Disponibilidad;
+        
+        Scanner Lector;
+        try {
+            Lector = new Scanner(ArchivoMenu);
+            while(Lector.hasNextLine()){
+                String Partes[] = Lector.nextLine().split(" - ");
+                ID = Integer.parseInt(Partes[0]);
+                Nombre = Partes[1];
+                Descripcion = Partes[2];
+                Precio = Float.parseFloat(Partes[5]);
+                Disponibilidad = Boolean.parseBoolean(Partes[6]);
 
+               if(!Disponibilidad) continue;
+                ModeloMenu.addRow(new Object[]{ID, Nombre, Descripcion, Precio});
+            }
+            Lector.close();
+        } catch (FileNotFoundException ex) {
+            System.getLogger(pnlConsultaMenu.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
+
+    }
+    
+    private void modificarTotales(){
+        double Subtotal = 0;
+        for(int i = 0; i < ModeloPedido.getRowCount(); i++){
+            Subtotal += (double)ModeloPedido.getValueAt(i, 4);
+        }
+        
+        lblSubtotal.setText(String.format("%.3f", Subtotal));
+        double IVA = Subtotal * 0.16;
+        lblIVA.setText(String.format("%.3f", IVA));
+        double Total = Subtotal * 1.16;
+        lblTotal.setText(String.format("%.3f", Total));
+    }
+    
     private void recuperarDatosFila(int fila) {
 
-        // Obtener los datos de las columnas
-        String Nombre = ModeloMenu.getValueAt(fila, 1).toString(); // Columna 1
-        double Precio = (double)ModeloMenu.getValueAt(fila, 3);
-        // ... y así sucesivamente para todas tus columnas
-
-        // Ejemplo: Mostrar la información
-        ModeloPedido.addRow(new Object[]{Nombre, 1, Precio, Precio});
-
-        // Ahora puedes usar estos datos para abrir una ventana de edición,
-        // cargar un formulario, etc.
+        // ID - Nombre - Desc. - Precio - Disponibilidad
+        int ID = (int)ModeloMenu.getValueAt(fila, 0);               // Sacamos el ID
+        String Nombre = ModeloMenu.getValueAt(fila, 1).toString();  // Sacamos el Nombre
+        double Precio = (double)ModeloMenu.getValueAt(fila, 3);     // Sacamos el Precio
+        
+        // Nombre - Cantidad - Precio x unidad - Subtotal
+        if(PedidosTabla.containsKey(ID)){
+            int i = PedidosTabla.get(ID);
+            int Cantidad = (int)ModeloPedido.getValueAt(i, 2);      // Sacamos la cantidad.
+            Cantidad++;                                             // Agregamos una unidad a la cantidad.
+            double Subtotal = Cantidad*Precio;                      // Calculamos el subtotal.
+            
+            ModeloPedido.setValueAt(Cantidad, i, 2);         // Modificamos la cantidad. 
+            ModeloPedido.setValueAt(Subtotal, i, 4);         // Modificamos el subtotal
+        } else {
+            ModeloPedido.addRow(new Object[]{ID, Nombre, 1, Precio, Precio});   // Agregamos el nuevo pedido a la tabla
+            PedidosTabla.put(ID, ModeloPedido.getRowCount()-1);             // Guardamos el ID de la entrada al mapa
+        }
+        
+        modificarTotales();
     }
     
     private void tblMenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMenuMouseClicked
@@ -189,22 +302,35 @@ public class pnlVenta extends javax.swing.JInternalFrame {
         if (evt.getClickCount() == 2) {
             int filaSeleccionada = tblMenu.rowAtPoint(evt.getPoint());
 
-            // Verificamos que la fila sea válida (no -1)
+            // Verificamos que la fila sea valida (no -1)
             if (filaSeleccionada != -1) {
-                // Llamamos al método que recuperará y usará los datos
                 recuperarDatosFila(filaSeleccionada);
             }
         }
     }//GEN-LAST:event_tblMenuMouseClicked
 
-    private void tblPedidoPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tblPedidoPropertyChange
+    private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_tblPedidoPropertyChange
+        LocalDateTime fechaActual = LocalDateTime.now();
+        String NombreVenta = "Venta_" + fechaActual.getYear() + "-" + fechaActual.getMonthValue() + "-" + fechaActual.getDayOfMonth() + "_" + fechaActual.getHour() + "." + fechaActual.getMinute() + ".xlsx";
+        
+        //File Archivo = new File(NombreVenta);
+        
+        // Se guarda o en un archivo o bdd
+
+    }//GEN-LAST:event_btnRegistrarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnRegistrar;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lblIVA;
+    private javax.swing.JLabel lblSubtotal;
+    private javax.swing.JLabel lblTotal;
     private javax.swing.JTable tblMenu;
     private javax.swing.JTable tblPedido;
     // End of variables declaration//GEN-END:variables

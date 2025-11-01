@@ -1,0 +1,2 @@
+1 - Hamburguesa - Hamburguesa con queso - Plato fuerte - Individual - 50.00 - true
+19 - Billy Burger - Hamburguesa triple carne con queso, tocino, salchicha, aguacate y una banderita. - Plato fuerte - Individual - 250.00 - false
