@@ -106,7 +106,7 @@ public class pnlVenta extends javax.swing.JInternalFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Float.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Double.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false
@@ -196,13 +196,10 @@ public class pnlVenta extends javax.swing.JInternalFrame {
                     .addComponent(jLabel3))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblIVA)
-                            .addComponent(lblTotal))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(lblIVA)
+                    .addComponent(lblTotal)
                     .addComponent(lblSubtotal))
-                .addGap(247, 247, 247)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnRegistrar)
                 .addGap(184, 184, 184))
         );
@@ -236,7 +233,7 @@ public class pnlVenta extends javax.swing.JInternalFrame {
         int ID;
         String Nombre;
         String Descripcion;
-        Float Precio;
+        Double Precio;
         boolean Disponibilidad;
         
         Scanner Lector;
@@ -247,7 +244,7 @@ public class pnlVenta extends javax.swing.JInternalFrame {
                 ID = Integer.parseInt(Partes[0]);
                 Nombre = Partes[1];
                 Descripcion = Partes[2];
-                Precio = Float.parseFloat(Partes[5]);
+                Precio = Double.parseDouble(Partes[5]);
                 Disponibilidad = Boolean.parseBoolean(Partes[6]);
 
                if(!Disponibilidad) continue;
@@ -280,6 +277,8 @@ public class pnlVenta extends javax.swing.JInternalFrame {
         String Nombre = ModeloMenu.getValueAt(fila, 1).toString();  // Sacamos el Nombre
         double Precio = (double)ModeloMenu.getValueAt(fila, 3);     // Sacamos el Precio
         
+        JOptionPane.showMessageDialog(null, "ID: " + ID + "\nNombre: " + Nombre);
+        
         // Nombre - Cantidad - Precio x unidad - Subtotal
         if(PedidosTabla.containsKey(ID)){
             int i = PedidosTabla.get(ID);
@@ -301,7 +300,7 @@ public class pnlVenta extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         if (evt.getClickCount() == 2) {
             int filaSeleccionada = tblMenu.rowAtPoint(evt.getPoint());
-
+            JOptionPane.showMessageDialog(null, "Fila: " + filaSeleccionada);
             // Verificamos que la fila sea valida (no -1)
             if (filaSeleccionada != -1) {
                 recuperarDatosFila(filaSeleccionada);

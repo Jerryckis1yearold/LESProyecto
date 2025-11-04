@@ -1,2 +1,5 @@
 1 - Hamburguesa - Hamburguesa con queso - Plato fuerte - Individual - 50.00 - true
-19 - Billy Burger - Hamburguesa triple carne con queso, tocino, salchicha, aguacate y una banderita. - Plato fuerte - Individual - 250.00 - false
+19 - Billy Big Burger - Hamburguesa triple carne con queso, tocino, salchicha, aguacate, verdura y una banderita. - Plato fuerte - Individual - 250.00 - true
+20 - Billy Burger - Hamburguesa doble carne con queso, tocino, aguacate. - Plato fuerte - Individual - 200.00 - true
+36 - RayBurger - Hamburguesa de carne con queso, salchicha, aguacate, verdura, tocino - Plato fuerte - Individual - 150.00 - true
+4 - La bestia - Hamburguesa de 2.5 kg - Especial - Varias raciones - 400.00 - true
