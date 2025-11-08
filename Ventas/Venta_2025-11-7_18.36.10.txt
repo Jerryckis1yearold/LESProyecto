@@ -1,0 +1,2 @@
+ID  - Nombre                                             - Cantidad        - Precio               - Subtotal                      
+20  - Billy Burger                                       - 3               - 200.0                - 600.0                         

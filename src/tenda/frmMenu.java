@@ -139,6 +139,11 @@ public class frmMenu extends javax.swing.JFrame {
         mnuAdministracion.setEnabled(false);
 
         mnubtnPromociones.setText("Promociones");
+        mnubtnPromociones.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnubtnPromocionesActionPerformed(evt);
+            }
+        });
         mnuAdministracion.add(mnubtnPromociones);
 
         sbmnuEmpleados.setText("Empleados");
@@ -152,9 +157,19 @@ public class frmMenu extends javax.swing.JFrame {
         sbmnuEmpleados.add(mnubtnRegistrarEmpleado);
 
         mnubtnModificarEmpleado.setText("Modificar empleado");
+        mnubtnModificarEmpleado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnubtnModificarEmpleadoActionPerformed(evt);
+            }
+        });
         sbmnuEmpleados.add(mnubtnModificarEmpleado);
 
         mnubtnDespedirEmpleado.setText("Despedir empleado");
+        mnubtnDespedirEmpleado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnubtnDespedirEmpleadoActionPerformed(evt);
+            }
+        });
         sbmnuEmpleados.add(mnubtnDespedirEmpleado);
 
         mnuAdministracion.add(sbmnuEmpleados);
@@ -235,6 +250,24 @@ public class frmMenu extends javax.swing.JFrame {
         Venta.setVisible(true);
     }//GEN-LAST:event_mnubtnRealizarVentaActionPerformed
 
+    private void mnubtnPromocionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnubtnPromocionesActionPerformed
+        frmRegistroPromociones formpnl = new frmRegistroPromociones();
+        pnlContenedor.add(formpnl);
+        formpnl.setVisible(true);
+    }//GEN-LAST:event_mnubtnPromocionesActionPerformed
+
+    private void mnubtnModificarEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnubtnModificarEmpleadoActionPerformed
+        frmModificarEmpleado frmModificar = new frmModificarEmpleado();
+        pnlContenedor.add(frmModificar);
+        frmModificar.setVisible(true);
+    }//GEN-LAST:event_mnubtnModificarEmpleadoActionPerformed
+
+    private void mnubtnDespedirEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnubtnDespedirEmpleadoActionPerformed
+        frmEliminarEmpleado frmEliminar = new frmEliminarEmpleado();
+        pnlContenedor.add(frmEliminar);
+        frmEliminar.setVisible(true);
+    }//GEN-LAST:event_mnubtnDespedirEmpleadoActionPerformed
+    
     /**
      * @param args the command line arguments
      */
